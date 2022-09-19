@@ -26,12 +26,12 @@ export const Statistics = () => {
   const pendingPurchases = data[PurchaseStatus.PENDING] || []
 
   return (
-    <Tab.Navigator screenOptions={{ tabBarIndicatorStyle: { backgroundColor: 'black' } }}>
+    <Tab.Navigator initialRouteName='SellerPendingPurchase' screenOptions={{ tabBarIndicatorStyle: { backgroundColor: 'black' } }}>
       <Tab.Screen name="SellerPendingPurchase" options={{ tabBarLabel: "В процессе" }} >
-        {(props) => <PurchaseList {...props} purchases={pendingPurchases.reverse()} />}
+        {(props) => <PurchaseList seller {...props} purchases={pendingPurchases.reverse()} />}
       </Tab.Screen>
       <Tab.Screen name="SellerDonePurchase" options={{ tabBarLabel: "Завершенные" }} >
-        {(props) => <PurchaseList {...props} purchases={donePurchases} />}
+        {(props) => <PurchaseList seller {...props} purchases={donePurchases} />}
       </Tab.Screen>
     </Tab.Navigator>
   );

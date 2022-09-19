@@ -9,9 +9,10 @@ import { Card, Text } from "react-native-elements"
 type Props = {
   purchases: Array<Purchase>
   navigation: any
+  seller?: boolean
 }
 
-export const PurchaseList = ({ purchases, navigation }: Props) => {
+export const PurchaseList = ({ purchases, navigation, seller }: Props) => {
   const [updatePurchase] = sellerApi.endpoints.updatePurchase.useMutation()
 
 
@@ -29,7 +30,7 @@ export const PurchaseList = ({ purchases, navigation }: Props) => {
             <Text style={styles.title} numberOfLines={1}>Итого без скидки: <Text style={{ fontWeight: 'bold' }}>{Number(total) + Number(discountAmount)} тг</Text></Text>
             <Text style={styles.title} >Итого со скидкой: <Text style={{ fontWeight: 'bold' }}>{total} тг</Text></Text>
             <Text style={{ textAlign: 'right', marginVertical: 8, fontWeight: 'bold' }} >{moment(item.createdAt).format('D/MM/YYYY, HH:mm')}</Text>
-            {item.status === PurchaseStatus.PENDING && <Button extraStyles={{ marginTop: 5 }} handlePress={() => handleUpdate(item.id)} title="Сделано" />}
+            {seller && item.status === PurchaseStatus.PENDING && <Button extraStyles={{ marginTop: 5 }} handlePress={() => handleUpdate(item.id)} title="Сделано" />}
           </View>
         </View>
       </Card>

@@ -25,8 +25,9 @@ const UserCart = ({ route, navigation }: StackScreenProps<SellerCartStackParamLi
 
   const { data: userItems } = sellerApi.endpoints.getUserItems.useQuery(username)
   const { data: itemGroups } = sellerApi.endpoints.getItemGroups.useQuery(null)
-  const { data: items } = sellerApi.endpoints.getFranchiseGroupItems.useQuery({ itemGroupId, franchiseId }, { skip: itemGroupId === 0 || !franchiseId })
+  const { data: items, refetch: refetchItems } = sellerApi.endpoints.getFranchiseGroupItems.useQuery({ itemGroupId, franchiseId }, { skip: itemGroupId === 0 || !franchiseId })
 
+  navigation.addListener('focus', () => refetchItems())
 
   useEffect(() => {
     if (itemGroupId === 0)

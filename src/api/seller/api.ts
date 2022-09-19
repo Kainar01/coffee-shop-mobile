@@ -61,7 +61,6 @@ const sellerApi = createApi({
         url: `/purchase/user/${userId}`,
         method: 'GET',
       }),
-      providesTags: [{ type: 'PURCHASE_LIST' }],
     }),
     getSellerPurchases: builder.query<Array<Purchase>, number>({
       query: (sellerId) => ({

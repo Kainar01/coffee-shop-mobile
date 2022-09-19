@@ -24,7 +24,7 @@ const UserItemList = ({ items, onItemGroupChange }: Props) => {
                 } : require(noImagePhoto)}
               />
               <View >
-                <Text numberOfLines={2} style={styles.title}>{title}</Text>
+                <Text numberOfLines={1} style={styles.title}>{title}</Text>
                 <Text style={styles.title}>{price} тг</Text>
                 <Text >{bought} куплено</Text>
               </View>
