@@ -35,12 +35,6 @@ const UserScreen = () => {
           tabBarLabel: ({ focused }) => <TabBarLabel focused={focused} label="Покупки" />,
           headerTitle: 'Покупки'
         }} />
-      <Tab.Screen name="UserFavorite" component={Statistics}
-        options={{
-          tabBarIcon: ({ focused }) => <TabBarIonicIcon focused={focused} focusedIcon='bar-chart-sharp' defaultIcon='bar-chart-outline' />,
-          tabBarLabel: ({ focused }) => <TabBarLabel focused={focused} label="Избранные" />,
-          headerTitle: 'Избранные'
-        }} />
     </Tab.Navigator>
   );
 };

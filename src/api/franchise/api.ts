@@ -55,9 +55,9 @@ const franchiseApi = createApi({
         method: 'POST',
       }),
     }),
-    getPurchaseStats: builder.query<PurchaseStats, null>({
-      query: () => ({
-        url: '/purchase/franchise/stats',
+    getPurchaseStats: builder.query<PurchaseStats, number>({
+      query: (franchiseId) => ({
+        url: `/purchase/franchise/${franchiseId}/stats`,
         method: 'GET',
       }),
       providesTags: [{ type: 'FRANCHISE_STATS' }],

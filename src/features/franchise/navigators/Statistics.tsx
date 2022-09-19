@@ -3,7 +3,7 @@ import franchiseApi from 'api/franchise/api';
 import { PurchaseStatus } from 'api/seller/types';
 import { PurchaseList } from 'features/seller/views/statistics/PurchaseList';
 import { useAuth } from 'hooks/useAuth';
-import { FranchiseSaleStatistics } from '../views/sales-statistics';
+import { FranchiseStatistics } from '../views/sales-statistics';
 
 export interface StatisticsParamList {
   FranchiseStats: undefined
@@ -23,7 +23,7 @@ export const Statistics = () => {
 
   return (
     <Tab.Navigator initialRouteName='FranchiseStats' screenOptions={{ tabBarIndicatorStyle: { backgroundColor: 'black' } }}>
-      <Tab.Screen name="FranchiseStats" component={FranchiseSaleStatistics} options={{ tabBarLabel: "Статистика" }} />
+      <Tab.Screen name="FranchiseStats" component={FranchiseStatistics} options={{ tabBarLabel: "Статистика" }} />
       <Tab.Screen name="FranchisePurchases" options={{ tabBarLabel: "Завершенные Заказы" }} >
         {(props) => <PurchaseList seller {...props} purchases={donePurchases} />}
       </Tab.Screen>

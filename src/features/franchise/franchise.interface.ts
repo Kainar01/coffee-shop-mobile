@@ -22,12 +22,14 @@ export interface DayPurchaseStats {
   month: number;
   year: number;
   total: number;
+  profit: number;
 }
 
 export interface MonthPurchaseStats {
   month: number;
   year: number;
   total: number;
+  profit: number;
 }
 
 export interface PurchaseStats {

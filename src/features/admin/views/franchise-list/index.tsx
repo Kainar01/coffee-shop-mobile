@@ -5,14 +5,16 @@ import adminApi from 'api/admin/api';
 import { Button } from 'components/Button';
 import { AdminFranchiseStackParamList } from 'features/admin/navigators/Franchise';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Franchise } from '../../admin.interface';
 
-const Item = ({ name }: Pick<Franchise, 'name'>) => (
-  <View style={styles.item}>
-    <Text numberOfLines={1} style={styles.title}>{name}</Text>
-  </View>
+const Item = ({ name, onPress }: Pick<Franchise, 'name'> & { onPress: () => void }) => (
+  <Pressable onPress={onPress}>
+    <View style={styles.item}>
+      <Text numberOfLines={1} style={styles.title}>{name}</Text>
+    </View>
+  </Pressable>
 );
 
 const AdminFranchiseList = () => {
@@ -21,7 +23,7 @@ const AdminFranchiseList = () => {
   const { data: franchises } = adminApi.endpoints.getFranchises.useQuery(null)
 
   const renderItem = ({ item }: Record<'item', Franchise>) => (
-    <Item name={item.name} />
+    <Item name={item.name} onPress={() => navigation.navigate('AdminFranchiseStats', { franchiseId: item.id })} />
   );
 
   return (
@@ -31,7 +33,7 @@ const AdminFranchiseList = () => {
           <FlatList
             data={franchises}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => `franchise-${item.id}`}
           />}
       </View>
       <View>

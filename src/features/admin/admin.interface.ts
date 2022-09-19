@@ -1,5 +1,5 @@
 export interface Franchise {
-  id: string;
+  id: number;
   name: string;
   userId: number;
 }
