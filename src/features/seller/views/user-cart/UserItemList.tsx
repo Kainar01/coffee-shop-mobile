@@ -1,34 +1,37 @@
 import { UserPurchaseItem } from 'api/seller/types';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Card, Image, Text } from 'react-native-elements';
 
 type Props = {
   items: Array<UserPurchaseItem>
+  onItemGroupChange: (id: number) => void
 }
 
 const noImagePhoto = '../../../../../assets/no-image1.png'
 
-const UserItemList = ({ items }: Props) => {
+const UserItemList = ({ items, onItemGroupChange }: Props) => {
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      {items.map(({ image, id, title, price, bought }) => (
-        <Card key={id} containerStyle={styles.cardContainer}>
-          <View style={styles.container} >
-            <Image
-              style={styles.image}
-              source={image ? {
-                uri: image,
-              } : require(noImagePhoto)}
-            />
-            <View >
-              <Text numberOfLines={2} style={styles.title}>{title}</Text>
-              <Text style={styles.title}>{price} тг</Text>
-              <Text >{bought} куплено</Text>
+      {items.map(({ image, id, title, price, bought, itemGroupId }) => (
+        <Pressable key={id} onPress={() => onItemGroupChange(itemGroupId)}>
+          <Card containerStyle={styles.cardContainer}>
+            <View style={styles.container} >
+              <Image
+                style={styles.image}
+                source={image ? {
+                  uri: image,
+                } : require(noImagePhoto)}
+              />
+              <View >
+                <Text numberOfLines={2} style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{price} тг</Text>
+                <Text >{bought} куплено</Text>
+              </View>
             </View>
-          </View>
+          </Card>
+        </Pressable>
 
-        </Card>
       ))}
     </ScrollView >
   );

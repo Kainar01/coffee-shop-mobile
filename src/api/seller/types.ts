@@ -8,7 +8,7 @@ export interface CreateStaffRequest {
   image?: string | null;
 }
 
-export interface UserPurchaseItem extends Pick<Item, 'id' | 'title' | 'price' | 'image'> {
+export interface UserPurchaseItem extends Pick<Item, 'id' | 'title' | 'price' | 'image' | 'itemGroupId'> {
   bought: number;
   isFavorite: boolean;
 }

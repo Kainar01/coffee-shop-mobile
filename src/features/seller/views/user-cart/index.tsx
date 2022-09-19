@@ -77,11 +77,11 @@ const UserCart = ({ route, navigation }: StackScreenProps<SellerCartStackParamLi
 
         {userItems?.mostBought && userItems?.mostBought.length > 0 && <>
           <Text style={styles.title}>Часто покупаемые</Text>
-          <UserItemList items={userItems?.mostBought} />
+          <UserItemList onItemGroupChange={(id: number) => setItemGroupId(id)} items={userItems?.mostBought} />
         </>}
         {userItems?.favorites && userItems?.favorites.length > 0 && <>
           <Text style={styles.title}>Избранное</Text>
-          <UserItemList items={userItems?.favorites} />
+          <UserItemList onItemGroupChange={(id: number) => setItemGroupId(id)} items={userItems?.favorites} />
         </>}
       </View>
 
