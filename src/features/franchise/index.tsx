@@ -5,8 +5,8 @@ import UserProfile from 'features/user/views/profile';
 import { useAuth } from 'hooks/useAuth';
 import { QRGenerator } from './components/QRGenerator';
 import FranchiseItems from './navigators/Items';
+import Seller from './navigators/Seller';
 import { Statistics } from './navigators/Statistics';
-import SellerList from './views/seller-list ';
 
 export type FranchiseTabParamList = {
   FranchiseProfile: undefined;
@@ -30,7 +30,7 @@ const Franchise = () => {
               tabBarLabel: ({ focused }) => <TabBarLabel focused={focused} label="Профиль" />,
               headerTitle: 'Профиль'
             }} />
-          <Tab.Screen name="FranchiseStaff" component={SellerList}
+          <Tab.Screen name="FranchiseStaff" component={Seller}
             options={{
               tabBarIcon: ({ focused }) => <TabBarIonicIcon focused={focused} focusedIcon='person-add-sharp' defaultIcon='person-add-outline' />,
               tabBarLabel: ({ focused }) => <TabBarLabel focused={focused} label="Персонал" />,

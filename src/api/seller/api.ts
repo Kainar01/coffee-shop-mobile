@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { Item } from 'features/admin/admin.interface';
 import { FranchiseItem } from 'features/franchise/franchise.interface';
-import { WorkingTrack } from 'features/seller/seller.interface';
+import { SellerWorkStats, WorkingTrack } from 'features/seller/seller.interface';
 import { baseQueryWithLogout } from '..';
 import {
   CreateStaffRequest,
@@ -94,6 +94,12 @@ const sellerApi = createApi({
       query: (secret) => ({
         url: `/seller/endWorkDay/${secret}`,
         method: 'POST',
+      }),
+    }),
+    sellerWorkStats: builder.query<SellerWorkStats, number>({
+      query: (sellerId) => ({
+        url: `/seller/workStats/${sellerId}`,
+        method: 'GET',
       }),
     }),
   }),
