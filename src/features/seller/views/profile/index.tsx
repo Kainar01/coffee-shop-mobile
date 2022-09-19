@@ -1,15 +1,20 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { SellerTabParamList } from 'features/seller';
-import React from 'react';
-import { Text, View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import UserProfile from 'features/user/views/profile';
+import { EndWorkQR } from '../end-work';
 
-type Props = BottomTabScreenProps<SellerTabParamList, 'Профиль'>;
+export type SellerProfileStackParamList = {
+  SellerDefaultProfile: undefined;
+  SellerEndWork: undefined
+};
+
+const Stack = createStackNavigator<SellerProfileStackParamList>();
 
 const SellerProfile = () => {
   return (
-    <View>
-      <Text>SellerProfile</Text>
-    </View>
+    <Stack.Navigator initialRouteName='SellerDefaultProfile' screenOptions={{ headerShown: true }}>
+      <Stack.Screen name="SellerDefaultProfile" component={UserProfile} options={{ headerTitle: 'Профиль' }} />
+      <Stack.Screen name="SellerEndWork" component={EndWorkQR} options={{ headerTitle: 'Скан QR кода' }} />
+    </Stack.Navigator>
   );
 };
 

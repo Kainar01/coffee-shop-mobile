@@ -6,7 +6,6 @@ import { PurchaseList } from 'features/seller/views/statistics/PurchaseList';
 import { SellerTabParamList } from 'features/user';
 import { useAuth } from 'hooks/useAuth';
 import _ from 'lodash';
-import { Text } from 'react-native-elements';
 
 export interface StatisticsParamList {
   SellerPendingPurchase: undefined
@@ -18,9 +17,9 @@ const Tab = createMaterialTopTabNavigator();
 export const Statistics = ({ navigation }: StackScreenProps<SellerTabParamList>) => {
   const { user } = useAuth();
 
-  if (!user?.id) return <Text>Loading</Text>
+  const userId = user?.id as number
 
-  const { data: purchases, refetch } = sellerApi.endpoints.getUserPurchases.useQuery(user?.id, { skip: !user?.id })
+  const { data: purchases, refetch } = sellerApi.endpoints.getUserPurchases.useQuery(userId, { skip: !userId })
 
   navigation.addListener('focus', () => refetch())
 

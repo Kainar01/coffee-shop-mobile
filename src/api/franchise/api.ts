@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { FranchiseItem } from 'features/franchise/franchise.interface';
+import { Purchase } from 'api/seller/types';
+import { FranchiseItem, PurchaseStats, QRVerification } from 'features/franchise/franchise.interface';
 import { Seller } from 'features/seller/seller.interface';
 import { baseQuery } from '..';
 import { CreateStaffRequest, GetFranshiseGroupItemsRequest } from './types';
@@ -9,7 +10,7 @@ export const FRANCHISE_API_REDUCER_KEY = 'franchiseApi';
 const franchiseApi = createApi({
   reducerPath: FRANCHISE_API_REDUCER_KEY,
   baseQuery,
-  tagTypes: ['STAFF_LIST', 'WORKING_TRACK', 'FRANCHISE_ITEMS'],
+  tagTypes: ['STAFF_LIST', 'WORKING_TRACK', 'FRANCHISE_ITEMS', 'FRANCHISE_STATS', 'FRANCHISE_PURCHASES'],
   endpoints: (builder) => ({
     createSeller: builder.mutation<undefined, CreateStaffRequest>({
       query: (data) => ({
@@ -40,6 +41,26 @@ const franchiseApi = createApi({
         body: data,
       }),
       invalidatesTags: [{ type: 'FRANCHISE_ITEMS' }],
+    }),
+    getFranchisePurchases: builder.query<Array<Purchase>, number>({
+      query: (franchiseId) => ({
+        url: `/purchase/franchise/${franchiseId}`,
+        method: 'GET',
+      }),
+      providesTags: [{ type: 'FRANCHISE_PURCHASES' }],
+    }),
+    generateQRVerificationSecret: builder.mutation<QRVerification, null>({
+      query: () => ({
+        url: '/franchise/generateVerification',
+        method: 'POST',
+      }),
+    }),
+    getPurchaseStats: builder.query<PurchaseStats, null>({
+      query: () => ({
+        url: '/purchase/franchise/stats',
+        method: 'GET',
+      }),
+      providesTags: [{ type: 'FRANCHISE_STATS' }],
     }),
   }),
 });

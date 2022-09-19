@@ -3,7 +3,6 @@ import sellerApi from 'api/seller/api';
 import { PurchaseStatus } from 'api/seller/types';
 import { useAuth } from 'hooks/useAuth';
 import _ from 'lodash';
-import { Text } from 'react-native-elements';
 import { PurchaseList } from '../views/statistics/PurchaseList';
 
 export interface StatisticsParamList {
@@ -16,9 +15,9 @@ const Tab = createMaterialTopTabNavigator();
 export const Statistics = () => {
   const { user } = useAuth();
 
-  if (!user?.seller?.id) return <Text>Loading</Text>
+  const sellerId = user?.seller?.id as number
 
-  const { data: purchases } = sellerApi.endpoints.getSellerPurchases.useQuery(user?.seller?.id, { skip: !user?.seller?.id })
+  const { data: purchases } = sellerApi.endpoints.getSellerPurchases.useQuery(sellerId, { skip: !sellerId })
 
   const data = _.groupBy(purchases, 'status')
 

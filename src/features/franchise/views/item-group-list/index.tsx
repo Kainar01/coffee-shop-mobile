@@ -1,15 +1,12 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import adminApi from 'api/admin/api';
 import { AdminItemGroup } from 'api/admin/types';
-import { Button } from 'components/Button';
 import { NoData } from 'features/admin/components/NoData';
 import { FranchiseItemStackParamList } from 'features/franchise/navigators/Items';
 import { useAuth } from 'hooks/useAuth';
 import React, { useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ItemGroupCreateModal } from './ItemGroupCreateModal';
 
 
@@ -52,9 +49,6 @@ const FranchiseItemGroupList = () => {
             renderItem={renderItem}
             keyExtractor={item => `item-group-${item.id}`}
           />}
-      </View>
-      <View>
-        <Button handlePress={() => setOpen(true)} title='Создать' icon={<Ionicons name={'add'} size={26} color={Colors.white} />}></Button>
       </View>
       {open && <ItemGroupCreateModal onDismiss={() => setOpen(false)} />}
     </View>

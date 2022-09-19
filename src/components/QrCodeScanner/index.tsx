@@ -36,8 +36,8 @@ const QrCodeScanner = ({ onScanned }: Props) => {
       `Bar code with type ${type} and data ${data} has been scanned!`
     );
     if (data.startsWith(QR_CODE_PREFIX)) {
-      onScanned(data.replace(QR_CODE_PREFIX, ''))
       setScanned(true)
+      onScanned(data.replace(QR_CODE_PREFIX, ''))
     }
   };
 

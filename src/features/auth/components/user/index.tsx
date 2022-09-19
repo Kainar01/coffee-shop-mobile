@@ -65,7 +65,7 @@ const User = () => {
           },
         }}
         placeholder='Пароль'
-        secureTextEntry={false} />
+        secureTextEntry={true} />
 
       <View style={styles.buttonView}>
         <Button handlePress={handleSubmit(handleAuth)} title='Войти' disabled={isLoading} ></Button>

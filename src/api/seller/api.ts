@@ -1,7 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { Item } from 'features/admin/admin.interface';
 import { FranchiseItem } from 'features/franchise/franchise.interface';
-import { baseQuery } from '..';
+import { WorkingTrack } from 'features/seller/seller.interface';
+import { baseQueryWithLogout } from '..';
 import {
   CreateStaffRequest,
   GetFranshiseGroupItemsRequest,
@@ -16,7 +17,7 @@ export const SELLER_API_REDUCER_KEY = 'sellerApi';
 
 const sellerApi = createApi({
   reducerPath: SELLER_API_REDUCER_KEY,
-  baseQuery,
+  baseQuery: baseQueryWithLogout,
   tagTypes: ['ITEM_LIST', 'ITEM_GROUP_LIST', 'USER_ITEM_LIST', 'PURCHASE_LIST', 'FRANCHISE_ITEMS'],
   endpoints: (builder) => ({
     createSeller: builder.mutation<undefined, CreateStaffRequest>({
@@ -82,6 +83,18 @@ const sellerApi = createApi({
         method: 'GET',
       }),
       providesTags: () => [{ type: 'FRANCHISE_ITEMS' }],
+    }),
+    startWorkingDay: builder.mutation<WorkingTrack, string>({
+      query: (secret) => ({
+        url: `/seller/startWorkDay/${secret}`,
+        method: 'POST',
+      }),
+    }),
+    endWorkingDay: builder.mutation<WorkingTrack, string>({
+      query: (secret) => ({
+        url: `/seller/endWorkDay/${secret}`,
+        method: 'POST',
+      }),
     }),
   }),
 });

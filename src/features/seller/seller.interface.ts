@@ -5,3 +5,11 @@ export interface Seller {
   userId: number;
   image: string | null;
 }
+
+export interface WorkingTrack {
+  id: number;
+  sellerId: number;
+  total: number | null;
+  startDate: Date;
+  endDate: Date | null;
+}
