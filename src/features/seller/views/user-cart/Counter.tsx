@@ -4,11 +4,12 @@ import { Text } from 'react-native-elements';
 
 type Props = {
   count: number;
+  max: number;
   onIncrement: () => void
   onDecrement: () => void
 }
 
-export const Counter = ({ count, onDecrement, onIncrement }: Props) => {
+export const Counter = ({ count, onDecrement, onIncrement, max }: Props) => {
   return (
     <View style={styles.container}>
       <Pressable onPress={onDecrement}>
@@ -24,7 +25,6 @@ export const Counter = ({ count, onDecrement, onIncrement }: Props) => {
           <Ionicons name="add" size={26} color={'white'} />
         </View>
       </Pressable>
-
     </View>
   )
 }
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   addButton: {
-    width: 40,
+    width: 35,
     borderColor: 'white',
-    height: 40,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center'
   },

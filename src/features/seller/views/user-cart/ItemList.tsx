@@ -1,13 +1,13 @@
-import { Item } from "features/admin/admin.interface"
+import { FranchiseItem } from "features/franchise/franchise.interface"
 import { FlatList, StyleSheet, View } from "react-native"
 import { Card, Image, Text } from "react-native-elements"
 import { CartItem } from "."
 import { Counter } from "./Counter"
 
 type Props = {
-  items: Array<Item>
-  onQuantityIncrement: (item: Item) => void
-  onQuantityDecrement: (item: Item) => void
+  items: Array<FranchiseItem>
+  onQuantityIncrement: (item: FranchiseItem) => void
+  onQuantityDecrement: (item: FranchiseItem) => void
   selected: Record<number, CartItem>
 }
 
@@ -15,8 +15,10 @@ const noImagePhoto = '../../../../../assets/no-image1.png'
 
 
 export const ItemList = ({ items, selected, onQuantityIncrement, onQuantityDecrement }: Props) => {
-  const renderItemGroup = ({ item }: Record<'item', Item>) => {
-    const { image, title, price, id } = item
+  const renderItemGroup = ({ item }: Record<'item', FranchiseItem>) => {
+    const { image, title, price, id, quantity } = item
+
+    const isLowStock = Number(quantity) <= 5
 
 
     return (
@@ -29,12 +31,17 @@ export const ItemList = ({ items, selected, onQuantityIncrement, onQuantityDecre
             } : require(noImagePhoto)}
           />
           <View style={styles.textContainer}>
-            <Text numberOfLines={2} style={styles.title}>{title}</Text>
+            <Text numberOfLines={1} style={styles.title}>{title}</Text>
             <Text style={styles.title}>{price} тг</Text>
           </View>
           <View style={styles.counterContainer}>
-            <Counter count={selected[id]?.quantity || 0} onDecrement={() => onQuantityDecrement(item)}
-              onIncrement={() => onQuantityIncrement(item)} />
+            {Number(quantity) > 0 ?
+              <>
+                <Counter max={Number(quantity)} count={selected[id]?.quantity || 0} onDecrement={() => onQuantityDecrement(item)}
+                  onIncrement={() => onQuantityIncrement(item)} />
+                <Text style={{ textAlign: 'right', color: isLowStock ? 'red' : 'black', marginTop: 5 }}>Осталось {quantity} штук</Text>
+              </>
+              : <Text>Нет в наличии</Text>}
           </View>
         </View>
       </Card>
@@ -48,7 +55,7 @@ export const ItemList = ({ items, selected, onQuantityIncrement, onQuantityDecre
       <FlatList
         data={items}
         renderItem={renderItemGroup}
-        keyExtractor={(itemGroup: Item) => `item-${itemGroup.id}`} />
+        keyExtractor={(item: FranchiseItem) => `item-${item.id}`} />
     </View >
   )
 }
@@ -63,7 +70,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     borderRadius: 8,
     margin: 0,
-    marginVertical: 8
+    marginVertical: 8,
+    padding: 20,
   },
   image: {
     width: 50,
@@ -75,7 +83,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   textContainer: {
-    flex: 1
+    flex: 1,
+    marginRight: 10
   },
   counterContainer: {
     justifyContent: 'center',

@@ -2,7 +2,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 import sellerApi from 'api/seller/api';
 import { Button } from 'components/Button';
 import { Item } from 'features/admin/admin.interface';
+import { FranchiseItem } from 'features/franchise/franchise.interface';
 import { SellerCartStackParamList } from 'features/seller/navigators/Cart';
+import { useAuth } from 'hooks/useAuth';
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
@@ -17,10 +19,13 @@ const UserCart = ({ route, navigation }: StackScreenProps<SellerCartStackParamLi
   const [itemGroupId, setItemGroupId] = useState<number>(0)
   const [selectedItems, setSelectedItems] = useState<Record<number, CartItem>>({})
   const username = route.params?.username as string
+  const { user } = useAuth()
+
+  const franchiseId = user?.seller?.franchiseId as number
 
   const { data: userItems } = sellerApi.endpoints.getUserItems.useQuery(username)
   const { data: itemGroups } = sellerApi.endpoints.getItemGroups.useQuery(null)
-  const { data: items } = sellerApi.endpoints.getGroupItems.useQuery(itemGroupId, { skip: itemGroupId === 0 })
+  const { data: items } = sellerApi.endpoints.getFranchiseGroupItems.useQuery({ itemGroupId, franchiseId }, { skip: itemGroupId === 0 || !franchiseId })
 
 
   useEffect(() => {
@@ -32,7 +37,7 @@ const UserCart = ({ route, navigation }: StackScreenProps<SellerCartStackParamLi
     navigation.setOptions({ headerTitle: `Корзина пользователя ${username}` })
   }, [])
 
-  const handleDecrement = (item: Item) => {
+  const handleDecrement = (item: FranchiseItem) => {
     const cartItem = selectedItems[item.id]
     if (cartItem) {
       setSelectedItems({
@@ -41,12 +46,12 @@ const UserCart = ({ route, navigation }: StackScreenProps<SellerCartStackParamLi
     }
   }
 
-  const handleIncrement = (item: Item) => {
+  const handleIncrement = (item: FranchiseItem) => {
     const cartItem = selectedItems[item.id]
     if (cartItem) {
       setSelectedItems({
         ...selectedItems, [item.id]: {
-          ...cartItem, quantity: cartItem.quantity + 1
+          ...cartItem, quantity: Math.min(cartItem.quantity + 1, Number(item.quantity))
         }
       })
     } else {

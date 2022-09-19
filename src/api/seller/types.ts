@@ -48,3 +48,7 @@ export enum PurchaseStatus {
   PAID = 'paid',
   CANCELED = 'canceled',
 }
+export interface GetFranshiseGroupItemsRequest {
+  franchiseId: number;
+  itemGroupId: number;
+}

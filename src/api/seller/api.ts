@@ -1,14 +1,23 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { Item } from 'features/admin/admin.interface';
+import { FranchiseItem } from 'features/franchise/franchise.interface';
 import { baseQuery } from '..';
-import { CreateStaffRequest, ItemGroupWithCount, Purchase, PurchaseRequest, PurchaseStatusUpdateRequest, UserPurchaseItems } from './types';
+import {
+  CreateStaffRequest,
+  GetFranshiseGroupItemsRequest,
+  ItemGroupWithCount,
+  Purchase,
+  PurchaseRequest,
+  PurchaseStatusUpdateRequest,
+  UserPurchaseItems,
+} from './types';
 
 export const SELLER_API_REDUCER_KEY = 'sellerApi';
 
 const sellerApi = createApi({
   reducerPath: SELLER_API_REDUCER_KEY,
   baseQuery,
-  tagTypes: ['ITEM_LIST', 'ITEM_GROUP_LIST', 'USER_ITEM_LIST', 'PURCHASE_LIST'],
+  tagTypes: ['ITEM_LIST', 'ITEM_GROUP_LIST', 'USER_ITEM_LIST', 'PURCHASE_LIST', 'FRANCHISE_ITEMS'],
   endpoints: (builder) => ({
     createSeller: builder.mutation<undefined, CreateStaffRequest>({
       query: (data) => ({
@@ -37,6 +46,7 @@ const sellerApi = createApi({
         url: `/item/byGroup/${id}`,
         method: 'GET',
       }),
+      keepUnusedDataFor: 5,
     }),
     purchase: builder.mutation<undefined, PurchaseRequest>({
       query: ({ username, ...data }) => ({
@@ -44,7 +54,7 @@ const sellerApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [{ type: 'USER_ITEM_LIST' }, { type: 'PURCHASE_LIST' }],
+      invalidatesTags: [{ type: 'USER_ITEM_LIST' }, { type: 'PURCHASE_LIST' }, { type: 'FRANCHISE_ITEMS' }],
     }),
     getUserPurchases: builder.query<Array<Purchase>, number>({
       query: (userId) => ({
@@ -66,6 +76,13 @@ const sellerApi = createApi({
         method: 'PUT',
       }),
       invalidatesTags: [{ type: 'PURCHASE_LIST' }],
+    }),
+    getFranchiseGroupItems: builder.query<Array<FranchiseItem>, GetFranshiseGroupItemsRequest>({
+      query: ({ franchiseId, itemGroupId }) => ({
+        url: `/item/sale/${franchiseId}/byGroup/${itemGroupId}`,
+        method: 'GET',
+      }),
+      providesTags: () => [{ type: 'FRANCHISE_ITEMS' }],
     }),
   }),
 });
