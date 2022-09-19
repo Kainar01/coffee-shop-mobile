@@ -4,3 +4,8 @@ export interface CreateStaffRequest {
   email: string;
   image?: string | null;
 }
+
+export interface GetFranshiseGroupItemsRequest {
+  franchiseId: number;
+  itemGroupId: number;
+}

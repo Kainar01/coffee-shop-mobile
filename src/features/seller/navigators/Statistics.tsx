@@ -3,30 +3,34 @@ import sellerApi from 'api/seller/api';
 import { PurchaseStatus } from 'api/seller/types';
 import { useAuth } from 'hooks/useAuth';
 import _ from 'lodash';
+import { Text } from 'react-native-elements';
 import { PurchaseList } from '../views/statistics/PurchaseList';
 
 export interface StatisticsParamList {
-  Pending: undefined
-  Done: undefined
+  SellerPendingPurchase: undefined
+  SellerDonePurchase: undefined
 }
 
 const Tab = createMaterialTopTabNavigator();
 
 export const Statistics = () => {
   const { user } = useAuth();
-  const { data: purchases } = sellerApi.endpoints.getSellerPurchases.useQuery(user!.seller!.id, { skip: !user?.seller?.id })
+
+  if (!user?.seller?.id) return <Text>Loading</Text>
+
+  const { data: purchases } = sellerApi.endpoints.getSellerPurchases.useQuery(user?.seller?.id, { skip: !user?.seller?.id })
 
   const data = _.groupBy(purchases, 'status')
 
-  console.log(data)
   const donePurchases = data[PurchaseStatus.PAID] || []
   const pendingPurchases = data[PurchaseStatus.PENDING] || []
+
   return (
     <Tab.Navigator screenOptions={{ tabBarIndicatorStyle: { backgroundColor: 'black' } }}>
-      <Tab.Screen name="Pending" options={{ tabBarLabel: "В процессе" }} >
-        {(props) => <PurchaseList {...props} purchases={pendingPurchases} />}
+      <Tab.Screen name="SellerPendingPurchase" options={{ tabBarLabel: "В процессе" }} >
+        {(props) => <PurchaseList {...props} purchases={pendingPurchases.reverse()} />}
       </Tab.Screen>
-      <Tab.Screen name="Done" options={{ tabBarLabel: "Завершенные" }} >
+      <Tab.Screen name="SellerDonePurchase" options={{ tabBarLabel: "Завершенные" }} >
         {(props) => <PurchaseList {...props} purchases={donePurchases} />}
       </Tab.Screen>
     </Tab.Navigator>

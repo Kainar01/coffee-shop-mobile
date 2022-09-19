@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { Item } from 'features/admin/admin.interface';
 import { baseQuery } from '..';
-import { CreateStaffRequest, ItemGroupWithCount, Purchase, PurchaseRequest, UserPurchaseItems } from './types';
+import { CreateStaffRequest, ItemGroupWithCount, Purchase, PurchaseRequest, PurchaseStatusUpdateRequest, UserPurchaseItems } from './types';
 
 export const SELLER_API_REDUCER_KEY = 'sellerApi';
 
@@ -59,6 +59,13 @@ const sellerApi = createApi({
         method: 'GET',
       }),
       providesTags: [{ type: 'PURCHASE_LIST' }],
+    }),
+    updatePurchase: builder.mutation<undefined, PurchaseStatusUpdateRequest>({
+      query: ({ purchaseId, status }) => ({
+        url: `/purchase/${purchaseId}/status/${status}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: [{ type: 'PURCHASE_LIST' }],
     }),
   }),
 });

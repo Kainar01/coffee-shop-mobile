@@ -1,10 +1,10 @@
 {
-  "name": "expo-and-typescript",
+  "name": "coffee-shop",
   "version": "0.0.0",
-  "description": "Showcase of an Expo app coded in TypeScript.",
+  "description": "Coffee shop management.",
   "author": {
-    "email": "jan@aagaard.net",
-    "name": "Jan Aagaard"
+    "email": "masujimk@gmail.com",
+    "name": "Kainar Massujima"
   },
   "private": true,
   "license": "MIT",

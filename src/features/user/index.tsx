@@ -3,7 +3,7 @@ import { TabBarIonicIcon } from 'components/TabBarIcon';
 import { TabBarLabel } from 'components/TabBarLabel';
 import SellerOrder from './views/order';
 import SellerProfile from './views/profile';
-import Statistics from './views/statistics';
+import { Statistics } from './views/statistics';
 
 export type SellerTabParamList = {
   UserProfile: undefined;

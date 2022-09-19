@@ -9,6 +9,7 @@ type Props = {
   placeholder: string;
   secureTextEntry?: boolean
   numeric?: boolean
+  disabled?: boolean
 }
 
 export const CustomInput = ({
@@ -17,7 +18,8 @@ export const CustomInput = ({
   rules = {},
   placeholder,
   secureTextEntry,
-  numeric = false
+  numeric = false,
+  disabled
 }: Props) => {
   return (
     <Controller
@@ -39,6 +41,7 @@ export const CustomInput = ({
               style={styles.input}
               secureTextEntry={secureTextEntry}
               keyboardType={numeric ? 'numeric' : 'default'}
+              editable={!disabled}
             />
           </View>
           {error && (

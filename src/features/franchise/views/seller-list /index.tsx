@@ -34,12 +34,12 @@ const Item = ({ name, image }: Seller) => {
 const SellerList = () => {
   const [open, setOpen] = useState(false);
 
-  const { data: sellers, error } = franchiseApi.endpoints.getSellers.useQuery(null)
+  const { data: sellers } = franchiseApi.endpoints.getSellers.useQuery(null)
 
   const renderItem = ({ item }: Record<'item', Seller>) => (
     <Item {...item} />
   );
-  console.log(error)
+
   return (
 
     <View style={styles.container}>

@@ -28,6 +28,11 @@ export interface PurchaseRequest {
   username: string;
 }
 
+export interface PurchaseStatusUpdateRequest {
+  purchaseId: number;
+  status: PurchaseStatus;
+}
+
 export interface Purchase {
   id: number;
   sellerId: number;
